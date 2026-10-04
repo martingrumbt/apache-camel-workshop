@@ -4,6 +4,7 @@ public class TimerRoute extends RouteBuilder {
 
     @Override
     public void configure() {
-        // TODO
+        from("timer:hello?period=1000")
+            .to("log:hello");
     }
 }
