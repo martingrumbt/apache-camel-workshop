@@ -5,6 +5,9 @@ public class TimerRoute extends RouteBuilder {
     @Override
     public void configure() {
         from("timer:hello?period=1000")
-            .to("log:hello");
+                .setBody(constant("Hello Camel"))
+                .setHeader("source", constant("workshop"))
+                .log("${header.source}: ${body}")
+                .to("log:hello");
     }
 }
