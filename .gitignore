@@ -3,3 +3,6 @@ mise.toml
 
 # Camel CLI generated files
 .camel-jbang/
+
+# task data
+data/
