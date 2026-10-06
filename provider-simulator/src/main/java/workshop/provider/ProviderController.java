@@ -2,23 +2,29 @@ package workshop.provider;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
 
 @RestController
-@RequestMapping("/applications")
 public class ProviderController {
 
-    @PostMapping
-    public Map<String, String> createApplication(
+    @PostMapping("/providers/bank-a/applications")
+    public Map<String, String> bankA(
             @RequestBody LoanApplication application
     ) {
-        System.out.println("Received application: " + application);
-
         return Map.of(
                 "provider", "Bank A",
+                "status", "ACCEPTED"
+        );
+    }
+
+    @PostMapping("/providers/bank-b/applications")
+    public Map<String, String> bankB(
+            @RequestBody LoanApplication application
+    ) {
+        return Map.of(
+                "provider", "Bank B",
                 "status", "ACCEPTED"
         );
     }

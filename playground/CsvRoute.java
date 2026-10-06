@@ -8,6 +8,7 @@ public class CsvRoute extends RouteBuilder {
         from("file:data/inbox")
                 .unmarshal().csv()
                 .bean(LoanApplicationMapper.class, "map")
+                // TODO Route the application based on its amount
                 .marshal().json(JsonLibrary.Jackson)
                 .setHeader("Content-Type", constant("application/json"))
                 .setHeader("CamelHttpMethod", constant("POST"))
