@@ -5,6 +5,9 @@ public class CsvRoute extends RouteBuilder {
     @Override
     public void configure() {
         from("file:data/inbox")
-        // TODO
+                .unmarshal().csv()
+                .log("Body: ${body}")
+                .log("Body type: ${body.class}")
+                .to("log:csv");
     }
 }
