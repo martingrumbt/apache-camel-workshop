@@ -1,0 +1,5 @@
+<LoanApplication>
+    <id>A-1001</id>
+    <amount>25000</amount>
+    <term>48</term>
+</LoanApplication>
