@@ -19,7 +19,7 @@ public class CsvMulticastRoute extends RouteBuilder {
                 .setHeader("Content-Type", constant("application/json"))
                 .setHeader("CamelHttpMethod", constant("POST"))
                 .to("http://localhost:8081/providers/bank-a/applications")
-                .convertBodyTo(String.class)
+                .unmarshal().json(JsonLibrary.Jackson, ProviderResponse.class)
                 .log("Bank A: ${body}");
 
         from("direct:bank-b")
@@ -27,7 +27,7 @@ public class CsvMulticastRoute extends RouteBuilder {
                 .setHeader("Content-Type", constant("application/json"))
                 .setHeader("CamelHttpMethod", constant("POST"))
                 .to("http://localhost:8081/providers/bank-b/applications")
-                .convertBodyTo(String.class)
+                .unmarshal().json(JsonLibrary.Jackson, ProviderResponse.class)
                 .log("Bank B: ${body}");
     }
 }
