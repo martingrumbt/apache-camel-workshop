@@ -8,9 +8,10 @@ public class CsvMulticastRoute extends RouteBuilder {
         from("file:data/inbox")
                 .unmarshal().csv()
                 .bean(LoanApplicationMapper.class, "map")
-
-                // TODO Send the application to both provider routes
-
+                .multicast()
+                    .to("direct:bank-a")
+                    .to("direct:bank-b")
+                .end()
                 .log("Processing finished");
 
         from("direct:bank-a")
