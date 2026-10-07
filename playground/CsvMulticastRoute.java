@@ -1,16 +1,28 @@
+//DEPS org.apache.camel:camel-csv:4.22.1
+
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.model.dataformat.JsonLibrary;
+import org.apache.camel.dataformat.csv.CsvDataFormat;
 
 public class CsvMulticastRoute extends RouteBuilder {
 
     @Override
     public void configure() {
+        CsvDataFormat csv = new CsvDataFormat();
+        csv.setUseMaps(false);
+        csv.setSkipHeaderRecord(true);
+
         from("file:data/inbox")
-                .unmarshal().csv()
-                .bean(LoanApplicationMapper.class, "map")
+                .unmarshal(csv)
+
+                // TODO Process each CSV row separately
+
+                .log("Finished processing file");
+
+        from("direct:providers")
                 .multicast(new ProviderResponseAggregationStrategy())
-                    .to("direct:bank-a")
-                    .to("direct:bank-b")
+                .to("direct:bank-a")
+                .to("direct:bank-b")
                 .end()
                 .log("Offers: ${body}");
 

@@ -3,9 +3,7 @@ import java.util.List;
 
 public class LoanApplicationMapper {
 
-    public LoanApplication map(List<List<String>> rows) {
-        var row = rows.get(1);
-
+    public LoanApplication map(List<String> row) {
         return new LoanApplication(
                 row.get(0),
                 new BigDecimal(row.get(1)),
