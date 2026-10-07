@@ -8,7 +8,7 @@ public class CsvMulticastRoute extends RouteBuilder {
         from("file:data/inbox")
                 .unmarshal().csv()
                 .bean(LoanApplicationMapper.class, "map")
-                .multicast() // TODO add call parameter
+                .multicast(new ProviderResponseAggregationStrategy())
                     .to("direct:bank-a")
                     .to("direct:bank-b")
                 .end()
@@ -19,6 +19,7 @@ public class CsvMulticastRoute extends RouteBuilder {
                 .setHeader("Content-Type", constant("application/json"))
                 .setHeader("CamelHttpMethod", constant("POST"))
                 .to("http://localhost:8081/providers/bank-a/applications")
+                .convertBodyTo(String.class)
                 .log("Bank A: ${body}");
 
         from("direct:bank-b")
@@ -26,6 +27,7 @@ public class CsvMulticastRoute extends RouteBuilder {
                 .setHeader("Content-Type", constant("application/json"))
                 .setHeader("CamelHttpMethod", constant("POST"))
                 .to("http://localhost:8081/providers/bank-b/applications")
+                .convertBodyTo(String.class)
                 .log("Bank B: ${body}");
     }
 }
