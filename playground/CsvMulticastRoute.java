@@ -8,11 +8,11 @@ public class CsvMulticastRoute extends RouteBuilder {
         from("file:data/inbox")
                 .unmarshal().csv()
                 .bean(LoanApplicationMapper.class, "map")
-                .multicast()
+                .multicast() // TODO add call parameter
                     .to("direct:bank-a")
                     .to("direct:bank-b")
                 .end()
-                .log("Processing finished");
+                .log("Offers: ${body}");
 
         from("direct:bank-a")
                 .marshal().json(JsonLibrary.Jackson)
