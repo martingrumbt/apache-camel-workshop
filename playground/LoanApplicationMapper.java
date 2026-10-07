@@ -1,13 +1,13 @@
 import java.math.BigDecimal;
-import java.util.List;
+import java.util.Map;
 
 public class LoanApplicationMapper {
 
-    public LoanApplication map(List<String> row) {
+    public LoanApplication map(Map<String, String> row) {
         return new LoanApplication(
-                row.get(0),
-                new BigDecimal(row.get(1)),
-                Integer.parseInt(row.get(2))
+                row.get("id"),
+                new BigDecimal(row.get("amount")),
+                Integer.parseInt(row.get("term"))
         );
     }
 }

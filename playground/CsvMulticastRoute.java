@@ -9,14 +9,16 @@ public class CsvMulticastRoute extends RouteBuilder {
     @Override
     public void configure() {
         CsvDataFormat csv = new CsvDataFormat();
-        csv.setUseMaps(false);
+        csv.setUseMaps(true);
+        csv.setHeader(new String[]{"id", "amount", "term"});
         csv.setSkipHeaderRecord(true);
 
         from("file:data/inbox")
                 .unmarshal(csv)
-
-                // TODO Process each CSV row separately
-
+                .split(body())
+                    .bean(LoanApplicationMapper.class, "map")
+                    .to("direct:providers")
+                .end()
                 .log("Finished processing file");
 
         from("direct:providers")
