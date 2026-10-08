@@ -13,8 +13,9 @@ public class CsvMulticastRoute extends RouteBuilder {
         csv.setHeader(new String[]{"id", "amount", "term"});
         csv.setSkipHeaderRecord(true);
 
-        // TODO Retry failed provider calls up to three times
-        //      with a delay of one second between attempts
+        onException(Exception.class)
+                .maximumRedeliveries(3)
+                .redeliveryDelay(1000);
 
         from("file:data/inbox")
                 .unmarshal(csv)
