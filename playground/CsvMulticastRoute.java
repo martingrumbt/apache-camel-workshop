@@ -13,6 +13,9 @@ public class CsvMulticastRoute extends RouteBuilder {
         csv.setHeader(new String[]{"id", "amount", "term"});
         csv.setSkipHeaderRecord(true);
 
+        // TODO Send messages that still fail after three retries
+        //      to data/dead-letter
+
         onException(Exception.class)
                 .maximumRedeliveries(3)
                 .redeliveryDelay(1000);
