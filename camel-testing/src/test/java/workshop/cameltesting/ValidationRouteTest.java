@@ -23,10 +23,23 @@ class ValidationRouteTest {
     @Test
     void shouldOnlyForwardValidApplications() throws Exception {
 
-        // TODO Expect exactly one valid application
+        var validApplication = new LoanApplication(
+                "A-1001",
+                new BigDecimal("25000"),
+                48
+        );
 
-        // TODO Send one valid and one invalid application
+        var invalidApplication = new LoanApplication(
+                "A-1002",
+                new BigDecimal("-100"),
+                48
+        );
 
-        // TODO Assert that the expectations were satisfied
+        valid.expectedBodiesReceived(validApplication);
+
+        template.sendBody("direct:applications", validApplication);
+        template.sendBody("direct:applications", invalidApplication);
+
+        valid.assertIsSatisfied();
     }
 }
