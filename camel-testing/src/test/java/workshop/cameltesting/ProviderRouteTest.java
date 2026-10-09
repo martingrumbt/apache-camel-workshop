@@ -25,7 +25,11 @@ class ProviderRouteTest {
 
     @Test
     void shouldSendApplicationToProvider() throws Exception {
-        // TODO Replace the HTTP endpoint with a MockEndpoint
+        AdviceWith.adviceWith(context, "provider-route", advice ->
+                advice.weaveByToUri("http://localhost:8081/*")
+                        .replace()
+                        .to("mock:provider")
+        );
 
         context.start();
 
@@ -33,7 +37,7 @@ class ProviderRouteTest {
                 "mock:provider", MockEndpoint.class
         );
 
-        // TODO Expect exactly one application
+        provider.expectedMessageCount(1);
 
         var application = new LoanApplication(
                 "A-1001",
@@ -43,6 +47,6 @@ class ProviderRouteTest {
 
         template.sendBody("direct:provider", application);
 
-        // TODO Assert expectations
+        provider.assertIsSatisfied();
     }
 }
