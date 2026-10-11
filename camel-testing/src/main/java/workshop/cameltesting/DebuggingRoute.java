@@ -12,7 +12,7 @@ public class DebuggingRoute extends RouteBuilder {
         from("direct:debug-applications")
                 .routeId("debug-applications")
                 .log("Processing application: ${body.id}")
-                .setHeader("applicationAmount", simple("${body.term}"))
+                .setHeader("applicationAmount", simple("${body.amount}"))
                 .filter(simple("${header.applicationAmount} > 50000"))
                 .to("mock:large-applications");
     }
