@@ -23,7 +23,7 @@ public class JmsProducerRoute extends RouteBuilder {
                 .bean(LoanApplicationMapper.class, "map")
                 .marshal().json(JsonLibrary.Jackson)
 
-                // TODO Send each application to the JMS queue
+                .to("jms:queue:loan.applications")
 
                 .end()
                 .log("Finished publishing applications");

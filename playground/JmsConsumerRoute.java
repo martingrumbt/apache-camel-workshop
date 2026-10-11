@@ -10,9 +10,33 @@ public class JmsConsumerRoute extends RouteBuilder {
     @Override
     public void configure() {
 
-        // TODO Consume loan applications from the JMS queue
-        //      and convert JSON back to LoanApplication
+        from("jms:queue:loan.applications")
+                .routeId("loan-application-consumer")
+                .unmarshal().json(JsonLibrary.Jackson, LoanApplication.class)
+                .log("Received from JMS: ${body}")
+                .to("direct:providers");
 
-        // Continue with the existing provider pipeline.
+        from("direct:providers")
+                .multicast(new ProviderResponseAggregationStrategy())
+                .to("direct:bank-a")
+                .to("direct:bank-b")
+                .end()
+                .log("Offers: ${body}");
+
+        from("direct:bank-a")
+                .marshal().json(JsonLibrary.Jackson)
+                .setHeader("Content-Type", constant("application/json"))
+                .setHeader("CamelHttpMethod", constant("POST"))
+                .to("http://localhost:8081/providers/bank-a/applications")
+                .convertBodyTo(String.class)
+                .log("Bank A: ${body}");
+
+        from("direct:bank-b")
+                .marshal().json(JsonLibrary.Jackson)
+                .setHeader("Content-Type", constant("application/json"))
+                .setHeader("CamelHttpMethod", constant("POST"))
+                .to("http://localhost:8081/providers/bank-b/applications")
+                .convertBodyTo(String.class)
+                .log("Bank B: ${body}");
     }
 }
