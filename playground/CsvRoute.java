@@ -6,8 +6,7 @@ public class CsvRoute extends RouteBuilder {
     @Override
     public void configure() {
         from("file:data/inbox")
-                .unmarshal().csv()
-                .bean(LoanApplicationMapper.class, "map")
+                .unmarshal().json(JsonLibrary.Jackson, LoanApplication.class)
                 .marshal().json(JsonLibrary.Jackson)
                 .setHeader("Content-Type", constant("application/json"))
                 .setHeader("CamelHttpMethod", constant("POST"))
