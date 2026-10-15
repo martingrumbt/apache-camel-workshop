@@ -1,0 +1,25 @@
+{
+  "flightId": "LH303",
+  "aircraftType": "A321",
+  "origin": "FRA",
+  "items": [
+    {
+      "id": "P003",
+      "type": "PASSENGER",
+      "destination": "MAD",
+      "route": "DIRECT"
+    },
+    {
+      "id": "P004",
+      "type": "PASSENGER",
+      "destination": "BER",
+      "route": "VIA_HUB"
+    },
+    {
+      "id": "C001",
+      "type": "PARCEL",
+      "destination": "MAD",
+      "route": "DIRECT"
+    }
+  ]
+}

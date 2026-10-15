@@ -1,0 +1,25 @@
+{
+  "flightId": "FX220",
+  "aircraftType": "B767F",
+  "origin": "FRA",
+  "items": [
+    {
+      "id": "C002",
+      "type": "PARCEL",
+      "destination": "MAD",
+      "route": "VIA_HUB"
+    },
+    {
+      "id": "C003",
+      "type": "PARCEL",
+      "destination": "BER",
+      "route": "DIRECT"
+    },
+    {
+      "id": "C004",
+      "type": "PARCEL",
+      "destination": "LIS",
+      "route": "VIA_HUB"
+    }
+  ]
+}

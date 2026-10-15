@@ -1,0 +1,25 @@
+{
+  "flightId": "LH101",
+  "aircraftType": "A320",
+  "origin": "FRA",
+  "items": [
+    {
+      "id": "P001",
+      "type": "PASSENGER",
+      "destination": "BER",
+      "route": "DIRECT"
+    },
+    {
+      "id": "P002",
+      "type": "PASSENGER",
+      "destination": "LIS",
+      "route": "VIA_HUB"
+    },
+    {
+      "id": "C001",
+      "type": "PARCEL",
+      "destination": "MAD",
+      "route": "DIRECT"
+    }
+  ]
+}
